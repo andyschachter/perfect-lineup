@@ -37,6 +37,16 @@ const countedGames = (mostGames, player) => {
   return mostGames
 }
 
+const countedPlayers = (mostPlayers, player) => {
+  if (!mostPlayers[player.teamId]) {
+    mostPlayers[player.teamId] = 1
+  } else {
+    mostPlayers[player.teamId]++
+  }
+
+  return mostPlayers
+}
+
 const sortTeam = (a, b) => {
   return a.gameId - b.gameId
 }
@@ -61,7 +71,8 @@ const validateLineup = (lineup) => {
   if (lineup.length === 9 &&
     lineup.reduce(sumTotal, 0) <= 45000 &&
     lineup.filter(outfield).length === 3 &&
-    Math.max(...Object.values(lineup.reduce(countedGames, {}))) <= 3) return true
+    Math.max(...Object.values(lineup.reduce(countedGames, {}))) <= 3 &&
+    Math.max(...Object.values(lineup.reduce(countedPlayers, {}))) <= 2) return true
 
   return false
 }
