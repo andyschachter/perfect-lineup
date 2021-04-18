@@ -27,14 +27,26 @@ const outfield = (lineup) => {
   return lineup.position === 'OF'
 }
 
+let countedGames = lineup.reduce(function (allGames, player) {
+  if (player.gameId in allGames) {
+    allGames[player.gameId]++
+  }
+  else {
+    allGames[player.gameId] = 1
+  }
+
+  return allGames
+}, {})
+
 const validateLineup = (lineup) => {
   if (lineup.length === 9 &&
     lineup.reduce(sumTotal, 0) <= 45000 &&
-    lineup.filter(outfield).length === 3) return true
+    lineup.filter(outfield).length === 3 &&
+    Math.max(...Object.values(countedGames)) <= 3) return true
 
   return false
 }
 
-console.log(lineup.length === 9)
+console.log(Math.max(...Object.values(countedGames)) <= 3)
 
 module.exports = validateLineup
