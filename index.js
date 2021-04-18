@@ -27,26 +27,46 @@ const outfield = (lineup) => {
   return lineup.position === 'OF'
 }
 
-let countedGames = lineup.reduce(function (allGames, player) {
-  if (player.gameId in allGames) {
-    allGames[player.gameId]++
-  }
-  else {
-    allGames[player.gameId] = 1
+const countedGames = (mostGames, player) => {
+  if (!mostGames[player.gameId]) {
+    mostGames[player.gameId] = 1
+  } else {
+    mostGames[player.gameId]++
   }
 
-  return allGames
-}, {})
+  return mostGames
+}
+
+const sortTeam = (a, b) => {
+  return a.gameId - b.gameId
+}
+
+
+const findMaxBlock = (arr) => {
+  if (arr.length < 2) return arr.length
+
+  let counter = 1
+  let maxCounter = 1
+
+  for (i = 1; i < arr.length; i++) {
+    if (arr['teamId'][i] === arr['teamId'][i-1]) { ++counter
+      if (counter > maxCounter) maxCounter = counter
+    } else (counter = 1)
+  }
+
+  return maxCounter
+}
 
 const validateLineup = (lineup) => {
   if (lineup.length === 9 &&
     lineup.reduce(sumTotal, 0) <= 45000 &&
     lineup.filter(outfield).length === 3 &&
-    Math.max(...Object.values(countedGames)) <= 3) return true
+    Math.max(...Object.values(lineup.reduce(countedGames, {}))) <= 3) return true
 
   return false
 }
 
-console.log(Math.max(...Object.values(countedGames)) <= 3)
+console.log(validateLineup(lineup))
+// console.log(Math.max(...Object.values(countedGames)) <= 3)
 
 module.exports = validateLineup
