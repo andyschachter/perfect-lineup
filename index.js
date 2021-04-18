@@ -19,8 +19,13 @@ const lineup = [{
   id: 9, name: 'Mookie Betts', position: 'OF', teamId: 12, gameId: 123, salary: 3600
 }]
 
+const sumTotal = (totalSalary, player) => {
+  return totalSalary + player.salary
+}
+
 const validateLineup = (lineup) => {
-  if (lineup.length === 9) return true
+  if (lineup.length === 9 &&
+    lineup.reduce(sumTotal, 0) <= 45000) return true
 
   return false
 }
