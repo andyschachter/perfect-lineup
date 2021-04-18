@@ -23,11 +23,18 @@ const sumTotal = (totalSalary, player) => {
   return totalSalary + player.salary
 }
 
+const outfield = (lineup) => {
+  return lineup.position === 'OF'
+}
+
 const validateLineup = (lineup) => {
   if (lineup.length === 9 &&
-    lineup.reduce(sumTotal, 0) <= 45000) return true
+    lineup.reduce(sumTotal, 0) <= 45000 &&
+    lineup.filter(outfield).length === 3) return true
 
   return false
 }
+
+console.log(lineup.length === 9)
 
 module.exports = validateLineup
