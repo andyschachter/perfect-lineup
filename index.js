@@ -20,7 +20,9 @@ const lineup = [{
 }]
 
 const validateLineup = (lineup) => {
+  if (lineup.length === 9) return true
 
+  return false
 }
 
 module.exports = validateLineup
